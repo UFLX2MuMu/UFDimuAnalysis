@@ -314,9 +314,9 @@ Categorizer* plotWithSystematic(TString systematic, Settings& settings)
     // SAMPLES---------------------------------------------------------
     ///////////////////////////////////////////////////////////////////
 
-    GetSamples(samples, "UF", "ALL_"+settings.whichDY);
-    GetSamples(samples, "UF", "SIGNAL120");
-    GetSamples(samples, "UF", "SIGNAL130");
+    GetSamples(samples, "CERN_hiM", "ALL_"+settings.whichDY);
+    GetSamples(samples, "CERN_hiM", "SIGNAL120");
+    GetSamples(samples, "CERN_hiM", "SIGNAL130");
 
     ///////////////////////////////////////////////////////////////////
     // PREPROCESSING: SetBranchAddresses-------------------------------
@@ -832,7 +832,7 @@ int main(int argc, char* argv[])
 
     // get the signal samples so that we know their lumi and xsec
     std::map<TString, Sample*> samples;
-    GetSamples(samples, "UF", "SIGNALX", true);
+    GetSamples(samples, "CERN_hiM", "SIGNALX", true);
 
     std::map<TString, TH1D*> netDataMap;
     TList* varstacklist = new TList();   // list to save all of the stacks
