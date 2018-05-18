@@ -211,10 +211,10 @@ void classify(TString factoryname, TString dlname, std::vector<TString>& trainVa
    // or "CERN" if you at CERN. "ALL" specifies that we want to load the Data
    // and all of the MC samples. Can loop through and remove the ones you don't want 
    // to use if you desire or just grab the ones you care about from the map.
-   GetSamples(samples, "UF", "SIGNAL" );       // all of the signal samples
-   GetSamples(samples, "UF", "ZJets_AMC-J");   // Drell Yan with MC samples for 0-jets, 1-jets, 2 or more jets
-   GetSamples(samples, "UF", "tt_ll_MG");      // ttbar
-   GetSamples(samples, "UF", "singleTop");     // t + X
+   GetSamples(samples, "CERN", "SIGNAL" );       // all of the signal samples
+   GetSamples(samples, "CERN", "ZJets_AMC-J");   // Drell Yan with MC samples for 0-jets, 1-jets, 2 or more jets
+   GetSamples(samples, "CERN", "tt_ll_MG");      // ttbar
+   GetSamples(samples, "CERN", "singleTop");     // t + X
    
    std::map<TString, int> idmap;
 
