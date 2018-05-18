@@ -40,6 +40,9 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
     in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/Moriond17/Mar13";
   else if (location == "CERN_hiM")
     in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/Moriond17/Mar13_hiM";
+  else if (location == "CERN_2017")
+    in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/data_2017_and_mc_fall17/";
+
   else
     std::cout << "\n\nInput location is " << location << ", not UF, CERN, or CERN_hiM.  NOT AN OPTION!!!\n\n" << std::endl;
   
@@ -52,15 +55,12 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
   /////// INDIVIDUAL ERAS /////////////////////////////////////////////////////
   std::vector< std::tuple< TString, float, int > > eras;
   // Era tuple has name, luminosity, and number of files
-  // Very rough lumi splitting between eras; needs to be updated - AWB 01.02.17
+  // Need to update the intergrated luminosity
   eras.push_back( std::make_tuple("B",   5800, 1) );
   eras.push_back( std::make_tuple("C",   2600, 1) );
   eras.push_back( std::make_tuple("D",   4300, 1) );
   eras.push_back( std::make_tuple("E",   4100, 1) );
-  eras.push_back( std::make_tuple("F_1", 1600, 1) );
-  eras.push_back( std::make_tuple("F_2", 1600, 1) );
-  eras.push_back( std::make_tuple("G",   7800, 1) );
-  eras.push_back( std::make_tuple("H",   9014, 2) );
+  eras.push_back( std::make_tuple("F",   1600, 1) );
   
   std::vector<TString> in_files_all_data;
   for (auto era: eras) {
@@ -71,7 +71,7 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
     std::vector<TString> in_files;
     TString in_file;
     if (location == "UF") {
-      in_files.push_back( TString(in_dir+"data/SingleMuon_SingleMu_2016"+std::get<0>(era)+".root") );
+      in_files.push_back( TString(in_dir+"data/SingleMuon_SingleMu_2017"+std::get<0>(era)+".root") );
     }
     else if (location == "UF_DoubleMu") {
       in_files.push_back( TString(data_dir+"DoubleMu_2016"+std::get<0>(era)+".root") );
@@ -84,19 +84,8 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
 	}
 
 	// if (std::get<0>(era) != "F_1" || location != "CERN_hiM") {
-	in_file.Form( "%s/SingleMuon/SingleMu_2016%s%s/NTuple_0.root", in_dir.Data(), std::get<0>(era).Data(), jDat.Data() );
+	in_file.Form( "%s/SingleMuon/SingleMu_2017%s%s/ntuple_0.root", in_dir.Data(), std::get<0>(era).Data(), jDat.Data() );
 	in_files.push_back(in_file);
-	// } else {  // Load input files for F_1 manually because of buggy event in CERN_hiM sample - AWB 28.03.17
-	// for (int j = 1; j <= 37; j++) { 
-	//   if (j ==  9) continue;  // Leave out tuple_9.root  with buggy event 1026584286 - AWB 28.03.17
-	//   if (j == 34) continue;  // Leave out tuple_34.root with buggy event 1160552942 - AWB 28.03.17
-	//   if (j == 35) continue;  // Leave out tuple_35.root with buggy event 1310428464 - AWB 28.03.17
-	//   if (j == 36) continue;  // Leave out tuple_36.root with buggy event   90777759 - AWB 28.03.17
-	//   if (j == 37) continue;  // Leave out tuple_37.root with buggy event 2179193035 - AWB 28.03.17
-	//   in_file.Form( "%s/SingleMuon/SingleMu_2016F_1/170315_104802/0000/tuple_%d.root", in_dir.Data(), j );
-	//   in_files.push_back(in_file);
-	// }
-	// }
 	  
       } // End loop: for (int i = 0; i < std::get<2>(era); i++)
     } 
@@ -414,7 +403,7 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
     if (location.Contains("UF")) {
       in_files.push_back( TString(in_dir+"dy/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_ZJets_AMC.root") );
     } else {
-      in_file.Form( "%s/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/NTuple_0.root", in_dir.Data() );
+      in_file.Form( "%s/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/ZJets_AMC/NTuple_100.root", in_dir.Data() );
       in_files.push_back(in_file);
     }
     samples["ZJets_AMC"] = new Sample(in_files, "ZJets_AMC", "background");
@@ -685,7 +674,10 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
   // ================================================================
   // TTJets ---------------------------------------------------------
   // ================================================================
-  
+ 
+
+// need to add TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8 here
+ 
   if (select.Contains("ALL") || select == "MC" || select == "BACKGROUND" || select == "ttbar" || select == "tt_ll_AMC") {
     std::cout << "Adding files for tt_ll_AMC ..." << std::endl;
     std::vector<TString> in_files;
