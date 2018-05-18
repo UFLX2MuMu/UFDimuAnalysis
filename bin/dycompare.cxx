@@ -49,10 +49,10 @@ int main(int argc, char* argv[])
   TH1::SetDefaultSumw2();
   std::map<TString, Sample*> sampleMap;
   std::vector<Sample*> sampleVec;
-  //GetSamples(sampleMap, "UF", "ZJets_MG");
+  //GetSamples(sampleMap, "CERN", "ZJets_MG");
 
   // Get DY AMC sample so that we can compare that to MG as well
-  GetSamples(sampleMap, "UF", "ZJets_AMC");
+  GetSamples(sampleMap, "CERN", "ZJets_AMC");
 
   int nthreads = 4;        // number of threads to use in parallelization
   float luminosity = 36814;

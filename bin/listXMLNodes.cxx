@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
    XMLCategorizer categorySelection(xmlfile);
 
    std::map<TString, Sample*> samples;
-   GetSamples(samples, "UF", "H2Mu_VH");
+   GetSamples(samples, "CERN", "H2Mu_VH");
 
    for(auto& sample: samples)
    {

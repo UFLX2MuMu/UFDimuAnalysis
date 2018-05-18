@@ -304,7 +304,7 @@ int main(int argc, char* argv[])
     ///////////////////////////////////////////////////////////////////
 
     // gather samples map from SamplesDatabase.cxx
-    GetSamples(samples, "UF", "ALL_"+settings.whichDY);
+    GetSamples(samples, "CERN", "ALL_"+settings.whichDY);
 
     ///////////////////////////////////////////////////////////////////
     // PREPROCESSING: SetBranchAddresses-------------------------------

@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
     float reductionFactor = 1;
     float luminosity = 36814;      // pb-1
-    GetSamples(samples, "UF");
+    GetSamples(samples, "CERN");
 
     ///////////////////////////////////////////////////////////////////
     // PREPROCESSING---------------------------------------------------

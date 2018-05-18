@@ -147,10 +147,10 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
    // or "CERN" if you at CERN. "ALL" specifies that we want to load the Data
    // and all of the MC samples. Can loop through and remove the ones you don't want 
    // to use if you desire or just grab the ones you care about from the map.
-   GetSamples(samples, "UF", "SIGNAL" );
-   GetSamples(samples, "UF", "ZJets_AMC-J");
-   GetSamples(samples, "UF", "tt_ll_MG");
-   GetSamples(samples, "UF", "singleTop");
+   GetSamples(samples, "CERN", "SIGNAL" );
+   GetSamples(samples, "CERN", "ZJets_AMC-J");
+   GetSamples(samples, "CERN", "tt_ll_MG");
+   GetSamples(samples, "CERN", "singleTop");
    // GetSamples(samples, "CERN_hiM", "VV");
    // GetSamples(samples, "CERN_hiM", "ttX");
    // GetSamples(samples, "CERN_hiM", "DATA");

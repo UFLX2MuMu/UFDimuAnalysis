@@ -57,9 +57,9 @@ void TMVAClassificationApplication_H2Mu( TString myMethodList = "" )
    // Get a sample to test the classification on
 
    std::map<TString, Sample*> sampleMap;
-   GetSamples(sampleMap, "UF", "ZJets_MG_incl");
-   GetSamples(sampleMap, "UF", "H2Mu_gg");
-   GetSamples(sampleMap, "UF", "H2Mu_VBF");
+   GetSamples(sampleMap, "CERN", "ZJets_MG_incl");
+   GetSamples(sampleMap, "CERN", "H2Mu_gg");
+   GetSamples(sampleMap, "CERN", "H2Mu_VBF");
    for(auto& i: sampleMap)
        printf("/// %s in Sample Map\n", i.second->name.Data());
 

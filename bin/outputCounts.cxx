@@ -115,7 +115,7 @@ Categorizer* getHistos(TString xmlfile, int nthreads, float reductionFactor, flo
     // SAMPLES---------------------------------------------------------
     ///////////////////////////////////////////////////////////////////
 
-    GetSamples(samples, "UF", "ALL_"+whichDY);
+    GetSamples(samples, "CERN", "ALL_"+whichDY);
 
     ///////////////////////////////////////////////////////////////////
     // PREPROCESSING---------------------------------------------------

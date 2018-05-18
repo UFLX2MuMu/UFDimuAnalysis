@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 
     TString whichDY = "dyAMC-J";
     //TString whichDY = "dyMG";
-    GetSamples(samples, "UF", "ALL_"+whichDY);
+    GetSamples(samples, "CERN", "ALL_"+whichDY);
 
     ///////////////////////////////////////////////////////////////////
     // PREPROCESSING---------------------------------------------------
