@@ -36,11 +36,11 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
     in_dir = "/cms/data/store/user/t2/users/acarnes/h2mumu/awb_samples/simplified/"; 
     data_dir = "/cms/data/store/user/t2/users/acarnes/h2mumu/awb_samples/doubleMu_simplified/"; 
   }
-  else if (location == "CERN")
+  else if (location == "CERN_2016")
     in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/Moriond17/Mar13";
   else if (location == "CERN_hiM")
     in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/Moriond17/Mar13_hiM";
-  else if (location == "CERN_2017")
+  else if (location == "CERN")
     in_dir = "root://eoscms.cern.ch//store/group/phys_higgs/HiggsExo/H2Mu/UF/ntuples/data_2017_and_mc_fall17";
 
   else

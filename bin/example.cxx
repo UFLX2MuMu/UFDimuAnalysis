@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
     // or "CERN" if you at CERN. "ALL" specifies that we want to load the Data
     // and all of the MC samples. Can loop through and remove the ones you don't want 
     // to use if you desire or just grab the ones you care about from the map.
-    GetSamples(samples, "CERN_2017", "ALL");
+    GetSamples(samples, "CERN", "ALL");
 
     std::cout << std::endl << "\nGot the samples" << std::endl;
 
