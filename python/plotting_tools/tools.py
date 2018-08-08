@@ -22,9 +22,14 @@ import tdrstyle
 # code
 #============================================
 
-colors = [58, 2, 8, 36, 91, 46, 50, 30, 9, 29, 3, 42, 98, 62, 74, 20, 29, 32, 49, 12, 3, 91]
+#colors = [58, 2, 8, 36, 91, 46, 50, 30, 9, 29, 3, 42, 98, 62, 74, 20, 29, 32, 49, 12, 3, 91]
+#colors = [58, 2, 8, 30, 91, 42, 50, 30, 9, 29, 3, 42, 98, 62, 74, 20, 29, 32, 49, 12, 3, 91]
+#colors = [225, 205, 12, 8, 220, 29, 30, 35, 28, 18]
+#colors = [225, 205, 8, 29, 12, 220]
+colors = [225, 8, 205, 29, 12, 220]
 
-def overlay(plot_list, title="overlay", savename="", name="", xtitle="", ytitle="", yrange=(-999,-999), ldim=[0.71,0.82,1.0,1.0], draw="fill-transparent"):
+def overlay(plot_list, title="overlay", savename="", name="", xtitle="", ytitle="", yrange=(-999,-999), ldim=[0.71,0.82,1.0,1.0], 
+            draw="fill-transparent", autocolor=True):
     """ Overlay histograms or tgraphs onto the same canvas. plot_list = [hist/graph, hist/graph, hist/graph, ...]"""
 
     if savename == "": savename = title
@@ -33,15 +38,20 @@ def overlay(plot_list, title="overlay", savename="", name="", xtitle="", ytitle=
     for i,plot in enumerate(plot_list):
         if 'fill' in draw: 
             if 'transparent' in draw: 
-                plot.SetFillColorAlpha(colors[i], 0.55)
+                plot.SetFillStyle(3001)
+                #plot.SetFillColorAlpha(colors[i], 0.55)
             else: 
                 plot.SetFillColor(colors[i])
 
         if 'point' in draw:
             plot.SetMarkerSize(1)
         else:
-            plot.SetLineColor(colors[i])
-            plot.SetLineWidth(2)
+            if(autocolor and plot.InheritsFrom("TH1")): 
+                plot.SetLineColor(1)
+                plot.SetLineWidth(1)
+            elif(autocolor): 
+                plot.SetLineColor(colors[0])
+                plot.SetLineWidth(2)
             plot.SetMarkerSize(2)
 
         if(i==0):
@@ -65,8 +75,6 @@ def overlay(plot_list, title="overlay", savename="", name="", xtitle="", ytitle=
             if ytitle!="": 
                 plot.GetYaxis().SetTitle(ytitle)
 
-            c.SetGridx()
-            c.SetGridy()
             c.SetTitle(title)
             c.SetName(title)
             if name!="": c.SetName(name)
@@ -81,14 +89,22 @@ def overlay(plot_list, title="overlay", savename="", name="", xtitle="", ytitle=
             else: 
                 plot.Draw("SAME")
 
-        if 'point' not in draw: 
+        if 'fill' in draw: 
+            legend.AddEntry(plot, plot.GetTitle(), "f")
+        elif 'point' not in draw: 
             legend.AddEntry(plot, plot.GetTitle(), "l")
-        if 'point' in draw: 
+        elif 'point' in draw: 
             legend.AddEntry(plot, plot.GetTitle(), "p")
 
         legend.Draw("SAME")
         plot_list[0].SetTitle(title)
 
+    legend.SetFillStyle(0)
+    c.cd()
+    c.SetGridx(0)
+    c.SetGridy(0)
+    tdrstyle.cmsPrel(35900, 13, False, prelim=True, onLeft=True, textScale=1.5)
+    plot_list[0].GetYaxis().SetTitleOffset(1.55)
     c.SaveAs('../out/imgs/%s.png' % savename)
     c.SaveAs('../out/rootfiles/%s.root' % savename)
 
@@ -110,7 +126,7 @@ def stack(stack_list, unc_map={}, title="stack", name="stack", xtitle="Mass (GeV
         #print "%s: %f" % (hist.GetName(), hist.Integral())
         #  set the colors, etc
         if autocolor:
-            hist.SetLineColor(colors[i])
+            hist.SetLineColor(1)
             hist.SetFillColor(colors[i])
         hist.SetStats(0)
 
@@ -155,6 +171,7 @@ def get(item_list):
     for i,item_info in enumerate(item_list):
         # first get the histograms from the rootfiles
         filename, itemname = item_info
+        print "&&& Grabbing %s, %s" % (filename, itemname)
         tfile = TFile(filename)
         gROOT.cd() # AHHHHH
         item = tfile.Get(itemname).Clone()
@@ -167,7 +184,7 @@ def get(item_list):
 ##################################################################
 
 def ratio(histo_list, name="data_mc_ratio", title="data_mc_ratio"):
-    """ Make a ratio histogram by dividing the Nth histogram and the sum of the 0 to N-1 histograms. """
+    """ Make a ratio histogram by dividing the Nth histogram by the sum of the 0 to N-1 histograms. """
     hsum = add(histo_list[0:-1])
     hlast = histo_list[-1].Clone(name)
     #print "%s: %f, %s: %f, ratio: %f" % (hlast.GetName(), hlast.Integral(), hsum.GetName(), hsum.Integral(), hlast.Integral()/hsum.Integral())
@@ -190,7 +207,9 @@ def subtractHistos(histo, up_or_down):
 ##################################################################
 
 def errorBandHisto(histo, up_or_down_list):
-    """ Calculate the error band histograms for a given histo and list of up/down histos. """
+    """ Calculate the error band histograms given a histogram and a list of systematics (up/down histos). Assumes the list is ordered
+        like [systematic1_up, systematic1_down, systematic2_up, systematic2_down, ...] or [systematic1_down, systematic1_up, 
+        systematic2_down, systematic2_up, ...]"""
 
     err_up_hist = histo.Clone(histo.GetName()+"_err_up")
     err_down_hist = histo.Clone(histo.GetName()+"_err_down")
@@ -312,17 +331,15 @@ def stackAndRatio(histo_list, rlist=0, unc_map={}, title="stack", log=True, name
     # if there are systematics provided then use that error band histo
     if band_hist != 0:
         bandhist = band_hist
+        up_hist.SetLineColor(1)
+        down_hist.SetLineColor(1)
 
     # set the style for the error band histogram
     bandhist.SetFillStyle(3001)
     bandhist.SetLineColor(12)
     bandhist.SetFillColor(12)
     bandhist.SetMarkerStyle(0)
-    up_hist.SetLineColor(1)
-    down_hist.SetLineColor(1)
     bandhist.Draw("E2SAME")
-    #up_hist.Draw("SAME")
-    #down_hist.Draw("SAME")
     legend.AddEntry(bandhist, errband, "f")
     gPad.Modified()
     
@@ -408,7 +425,8 @@ def stackAndRatio(histo_list, rlist=0, unc_map={}, title="stack", log=True, name
     hratio.GetXaxis().SetLabelSize(15);
 
     pad1.cd()
-    tdrstyle.cmsPrel(35900, 13, False, onLeft=True, textScale=1.5)
+    #tdrstyle.cmsPrel(35900, 13, True, onLeft=True, textScale=1.5)
+    tdrstyle.cmsPrel(35900, 13, False, prelim=True, onLeft=True, textScale=1.5)
 
     c.SaveAs('../out/imgs/'+savename+".png")
     c.SaveAs('../out/rootfiles/'+savename+".root")
@@ -537,10 +555,8 @@ def rebin(hlist, edges):
 #-----------------------------------------------------------------
 ##################################################################
 
-# With variable binning in a histogram it's best to scale down
-# the bins with large bin widths 
-# so that the histogram still rises and falls smoothly
 def scaleByBinWidth(hlist, edges):
+    """ Scale each bin by its width. The smallest width is the reference. For example, a bin 3x the smallest will be scaled by 1/3."""
     min_diff = 9999999999
     scale = []
     retlist = []
@@ -567,8 +583,8 @@ def scaleByBinWidth(hlist, edges):
 #-----------------------------------------------------------------
 ##################################################################
 
-# Get the min and max of a plot
 def getMinMaxY(plot):
+    """ Get the min and max of a plot. """
     miny = -999
     maxy = -999
 
@@ -586,10 +602,10 @@ def getMinMaxY(plot):
 #-----------------------------------------------------------------
 ##################################################################
 
-# Get the FWHM and the fwhm left and right boundaries of the histogram
-# without fitting. Not stable with low stats, it's better to fit.
-# Could also smooth by averaging w/ neighbors to get better results.
+# Recently implemented smoothing by averaging w/ neighbors to get better results.
+# Haven't tested this recent change to make sure it's not buggy.
 def fwhm(h, start=1):
+    """ Calculate the FWHM of a peaked histogram by scanning the bin contents. Not stable for low stats. """
     maxbin = -999
     leftbin = -999
     rightbin = -999
@@ -598,7 +614,19 @@ def fwhm(h, start=1):
 
     # find max
     for i in range(start, h.GetNbinsX()):
-        val = h.GetBinContent(i)
+        val = 0
+        if i-1 >= start and i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i-1) + h.GetBinContent(i) + h.GetBinContent(i+1))/3
+
+        elif i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        elif i-1 >= start:
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        else:
+            val = h.GetBinContent(i)
+
         if val > max:
             max = val
             maxbin = i
@@ -607,14 +635,38 @@ def fwhm(h, start=1):
 
     # find half-max bin on left of max
     for i in range(start, maxbin):
-        val = h.GetBinContent(i)
+        val = 0
+        if i-1 >= start and i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i-1) + h.GetBinContent(i) + h.GetBinContent(i+1))/3
+
+        elif i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        elif i-1 >= start:
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        else:
+            val = h.GetBinContent(i)
+
         if val >= half_max:
             leftbin = i
             break
 
     # find half-max bin on right of max
     for i in range(maxbin, h.GetNbinsX()):
-        val = h.GetBinContent(i)
+        val = 0
+        if i-1 >= start and i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i-1) + h.GetBinContent(i) + h.GetBinContent(i+1))/3
+
+        elif i+1 < h.GetNbinsX(): 
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        elif i-1 >= start:
+            val = (h.GetBinContent(i) + h.GetBinContent(i+1))/2
+
+        else:
+            val = h.GetBinContent(i)
+
         if val <= half_max:
             rightbin = i
             break
@@ -630,12 +682,21 @@ def fwhm(h, start=1):
 ##################################################################
 
 # Fit the signal with a gaussian and get the FWHM boundaries
-def fwhm_fit(h, fitmin=121, fitmax=129):
+#def fwhm_fit(h, fitmin=121, fitmax=129):
+def fwhm_fit(h, fitmin=115, fitmax=135, double=True):
+    """ Fit the signal with a Gaussian and get the FWHM and left and right bins. """
+    from math import sqrt
     ntries = 0
     converged = False
-    fit = TF1("Gaussian", "[0]*TMath::Gaus(x, [1], [2])", fitmin, fitmax) 
-    fit.SetParNames("Normalization", "Mean", "Sigma")
-    fit.SetParameters(h.GetMaximum(), h.GetMean(), 2);
+    fit = 0
+
+    if not double: 
+        fit = TF1("Gaussian", "[0]*TMath::Gaus(x, [1], [2])", fitmin, fitmax) 
+    else: 
+        fit = TF1("Gaussian", "[0]*TMath::Gaus(x, [1], [2]) + [3]*TMath::Gaus(x, [4], [5])", fitmin, fitmax) 
+
+    fit.SetParNames("Normalization1", "Mean1", "Sigma1", "Normalization2", "Mean2", "Sigma2")
+    fit.SetParameters(0.7*h.GetMaximum(), h.GetMean(), 1.2, 0.3*h.GetMaximum(), h.GetMean(), 4);
 
     for i in range(0, 50):
         h.Fit("Gaussian", "q", "", fitmin, fitmax)
@@ -644,13 +705,36 @@ def fwhm_fit(h, fitmin=121, fitmax=129):
             converge = True
             break
 
-    gauss_mean = fit.GetParameter(1)
-    gauss_sigma = fit.GetParameter(2)
-    full_width_half_max = gauss_sigma*2.355
+    hfit = fit.GetHistogram()
+
+    norm1 = fit.GetParameter(0);
+    gauss_mean1 = fit.GetParameter(1)
+    gauss_sigma1 = fit.GetParameter(2)
+
+    norm2 = fit.GetParameter(3);
+    gauss_mean2 = fit.GetParameter(4)
+    gauss_sigma2 = fit.GetParameter(5)
+
+    gauss_mean = gauss_mean1
+    sigma = gauss_sigma1
+
+    full_width_half_max = sigma*2.355
     left = gauss_mean - full_width_half_max/2;
     right = gauss_mean + full_width_half_max/2;
-    leftbin = h.GetXaxis().FindBin(left)
-    rightbin = h.GetXaxis().FindBin(right)
+    leftbin1 = h.GetXaxis().FindBin(left)
+    rightbin1 = h.GetXaxis().FindBin(right)
+
+    leftbin = hfit.FindFirstBinAbove(hfit.GetMaximum()/2);
+    rightbin = hfit.FindLastBinAbove(hfit.GetMaximum()/2);
+    left = hfit.GetBinCenter(leftbin)
+    right = hfit.GetBinCenter(rightbin)
+    
+    leftbin = h.GetXaxis().FindBin(left);
+    rightbin = h.GetXaxis().FindBin(right);
+    full_width_half_max = right - left;
+
+    print "\ndLeft %d, dRight %d" % (leftbin1-leftbin, rightbin1-rightbin)
+    print "NBINS : %d vs %d \n" % (hfit.GetNbinsX(), h.GetNbinsX())
     return leftbin, rightbin, full_width_half_max
 
 ##################################################################
@@ -659,6 +743,7 @@ def fwhm_fit(h, fitmin=121, fitmax=129):
 
 # Fit the bkg with bwz redux and return the fit 
 def fit_bkg(h, fitmin=110, fitmax=160):
+    """Fit the background with BWZRedux and return the fit."""
     ntries = 0
     converged = False
     fit = TF1("bwz_redux", "[0]*TMath::Exp([1]*x/100 + [2]*(x/100)^2)/(TMath::Power(x-91.2,[3]) + TMath::Power(2.5/2, [3]))", fitmin, fitmax) 
@@ -676,4 +761,3 @@ def fit_bkg(h, fitmin=110, fitmax=160):
     a2 = fit.GetParameter(2)
     a3 = fit.GetParameter(3)
     return fit
-

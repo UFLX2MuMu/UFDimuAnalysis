@@ -383,20 +383,20 @@ std::vector<Sample*>& GetSamples(std::map<TString, Sample*>& samples, TString lo
   // H2Mu_ttH ---------------------------------------------------------
   // ================================================================
   
-  if (select == "MC" || select == "SIGNAL" || select == "H2Mu_ttH") {
-    std::cout << "Adding files for H2Mu_ttH ..." << std::endl;
-    std::vector<TString> in_files;
-    TString in_file;
-    if (location.Contains("UF")) {
-      in_files.push_back( TString(in_dir+"signal/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_ttH.root") );
-    } else {
-      in_file.Form( "%s/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/ttH/NTuple_0.root", in_dir.Data() );
-      in_files.push_back(in_file);
-    }
-    samples["H2Mu_ttH"] = new Sample(in_files, "H2Mu_ttH", "signal");
-    samples["H2Mu_ttH"]->xsec = 0.2151;     // pb
-     if(!location.Contains("UF")) std::cout << ".... " << in_files.size() << " files added." << std::endl;
-  } 
+  //if (select == "MC" || select == "H2Mu_ttH") {
+  //  std::cout << "Adding files for H2Mu_ttH ..." << std::endl;
+  //  std::vector<TString> in_files;
+  //  TString in_file;
+  //  if (location.Contains("UF")) {
+  //    in_files.push_back( TString(in_dir+"signal/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_ttH.root") );
+  //  } else {
+  //    in_file.Form( "%s/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/ttH/NTuple_0.root", in_dir.Data() );
+  //    in_files.push_back(in_file);
+  //  }
+  //  samples["H2Mu_ttH"] = new Sample(in_files, "H2Mu_ttH", "signal");
+  //  samples["H2Mu_ttH"]->xsec = 0.2151;     // pb
+  //   if(!location.Contains("UF")) std::cout << ".... " << in_files.size() << " files added." << std::endl;
+  //} 
  
  
   // ================================================================

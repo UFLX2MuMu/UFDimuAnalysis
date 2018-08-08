@@ -48,7 +48,7 @@ struct Settings
 
     int whichCategories = 1;              // run2categories = 1, run2categories = 2, "categories.xml" = 3 -> xmlcategories
     TString varname = "dimu_mass_Roch";   // the variable to plot, must match name in ../lib/VarSet
-    int binning = 0;                      // binning = 1 -> plot dimu_mass from 110 to 160 for limit setting
+    int binning = 0;                      // binning = 1 -> plot dimu_mass from 110 to 160
                                           //  negative numbers unblind the data for limit setting
                                           //  see initPlotSettings above for more information
     
@@ -454,10 +454,10 @@ Categorizer* plotWithSystematic(TString systematic, Settings& settings)
       Categorizer* categorySelection = 0;
 
       if(settings.whichCategories == 1) categorySelection = new CategorySelectionRun1();                  // run1 categories
-      else if(settings.whichCategories == 2) categorySelection = new CategorySelectionBDT();              // Adrian's proposed run2 categories
+      else if(settings.whichCategories == 2) categorySelection = new CategorySelectionBDT();              // run2 categories
       else if(settings.whichCategories == 3 && settings.xmlfile.Contains("hybrid")) 
-          categorySelection = new CategorySelectionHybrid(settings.xmlfile);                                 // BDT based categories XML + object cuts
-      else if(settings.whichCategories == 3) categorySelection = new XMLCategorizer(settings.xmlfile);    // BDT based categories XML only
+          categorySelection = new CategorySelectionHybrid(settings.xmlfile);                              // XML + object cuts
+      else if(settings.whichCategories == 3) categorySelection = new XMLCategorizer(settings.xmlfile);    // XML only
 
       // set some flags
       bool isData = s->sampleType.EqualTo("data");

@@ -1,5 +1,9 @@
 ##############################################
-# BGSpectrumFitter.py                      #
+# BGSpectrumFitter.py                        #
+##############################################
+# fit the bkg spectrum using the histos      #
+# created by categorize.cxx                  #
+#                                            #
 ##############################################
 
 #============================================
@@ -23,8 +27,8 @@ sys.argv.append( '-b-' )
 #============================================
 
 class BGSpectrumFitter:
-# object to make workspace, root files, and datacards needed for analytic shape or template
-# limit setting via higgs combine.
+# Object to fit the background spectrum in data or MC. Takes in rootfiles from categorize.cxx.
+# Can fit blinded or unblinded histograms. Could be used to fit the signal with a few tweaks.
 
     infilename = ''
     category = ''
@@ -44,6 +48,7 @@ class BGSpectrumFitter:
         self.setHists()
     
     def setHists(self):
+    # use the naming convention from categorize.cxx to automatically grab the different histograms that might be fit
         self.data_hist      = self.tfile.Get('net_histos/'+self.category+"_Net_Data")
         self.bg_dy_hist      = self.tfile.Get('net_histos/'+self.category+"_Drell_Yan_")
         self.bg_ttbar_hist   = self.tfile.Get('net_histos/'+self.category+"_TTbar_Plus_SingleTop")
@@ -57,6 +62,7 @@ class BGSpectrumFitter:
     
     
     def getX(self, histo):
+    # need the roofit x variable to do the fit, so create it from the histogram
         # suppress all messages except those that matter
         RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
         print "="*78
@@ -78,8 +84,7 @@ class BGSpectrumFitter:
         return x
     
     def fit(self, histo, pdfMmumu, x, xmin=100, xmax=150, blinded=True, save=True):
-    # make workspace with signal model and background model for analytic shape fit.
-    # save it to a root file.
+    # fit the spectrum and save the fit and the data/MC histogram to .png and .root
 
         # suppress all messages except those that matter
         RooMsgService.instance().setGlobalKillBelow(RooFit.FATAL)
@@ -120,6 +125,7 @@ class BGSpectrumFitter:
 
         f = xframe.findObject(pdfMmumu.GetName());
 
+        # save the fit to the data/MC via the TCanvas
         if(save):
             c1.SaveAs('img/'+c1.GetName()+'.png')
             c1.SaveAs('rootfiles/'+histo.GetName()+"_"+pdfMmumu.GetName()+'.root');

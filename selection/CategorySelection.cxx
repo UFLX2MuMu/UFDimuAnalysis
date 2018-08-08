@@ -266,7 +266,6 @@ void CategorySelectionBDT::initCategoryMap()
     categoryMap["c12"] = Category("c12", false, true);
     categoryMap["c13"] = Category("c13", false, true);
     categoryMap["c14"] = Category("c14", false, true);
-    categoryMap["c15"] = Category("c15", false, true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,65 +291,50 @@ void CategorySelectionBDT::evaluate(VarSet& vars)
     // Inclusive set of events
     categoryMap["cAll"].inCategory = true;
 
-    // ttH w/ a lepton [tt -> l + XYZ]
-    if(vars.getValue("nBMed") > 0 && vars.getValue("nJets") > 1 && vars.getValue("nExtraLep") > 0) // ttH w/ a lepton
-    {
-        categoryMap["c15"].inCategory = true;
-    }
-    // ttH hadronic [tt -> qqqq]
-    else if(vars.getValue("nBMed") > 0 && vars.getValue("nJets") > 4)
-    {
+    if( bdt_score < -0.400 ) 
+        categoryMap["c0"].inCategory = true;
+
+    else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta >= 1.900 )
+        categoryMap["c1"].inCategory = true;
+
+    else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta < 1.900  && max_eta >=0.9) 
+        categoryMap["c2"].inCategory = true;
+
+    else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta < 0.9 ) 
+        categoryMap["c3"].inCategory = true;
+
+    else if( bdt_score >= 0.050 && bdt_score < 0.250 && max_eta >= 1.9) 
+        categoryMap["c4"].inCategory = true;
+
+    else if( bdt_score >= 0.050 && bdt_score < 0.250 && max_eta >= 0.900 && max_eta < 1.9) 
+        categoryMap["c5"].inCategory = true;
+
+    else if( bdt_score >= 0.050 && bdt_score < 0.250 && max_eta < 0.900 ) 
+        categoryMap["c6"].inCategory = true;
+
+    else if( bdt_score >= 0.250 && bdt_score < 0.400 && max_eta >= 1.900 )
+        categoryMap["c7"].inCategory = true;
+
+    else if( bdt_score >= 0.250 && bdt_score < 0.400 && max_eta < 1.900 && max_eta >= 0.900 ) 
+        categoryMap["c8"].inCategory = true;
+
+    else if( bdt_score >= 0.250 && bdt_score < 0.400 && max_eta < 0.900 ) 
+        categoryMap["c9"].inCategory = true;
+
+    else if( bdt_score < 0.650 && bdt_score >= 0.400 && max_eta >= 1.900 ) 
+        categoryMap["c10"].inCategory = true;
+
+    else if( bdt_score < 0.650 && bdt_score >= 0.400 && max_eta < 1.900 && max_eta >= 0.900 ) 
+        categoryMap["c11"].inCategory = true;
+
+    else if( bdt_score < 0.650 && bdt_score >= 0.400 && max_eta < 0.900 ) 
+        categoryMap["c12"].inCategory = true;
+
+    else if( bdt_score < 0.730 && bdt_score >= 0.650 ) 
+        categoryMap["c13"].inCategory = true;
+
+    else if( bdt_score >= 0.730 )
         categoryMap["c14"].inCategory = true;
-    }
-    // not ttH
-    else
-    {
-        if( bdt_score < -0.400 ) 
-            categoryMap["c0"].inCategory = true;
-
-        else if( bdt_score >= 0.250 && bdt_score < 0.400 && max_eta >= 1.900 )
-            categoryMap["c1"].inCategory = true;
-
-        else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta >= 1.900 )
-            categoryMap["c2"].inCategory = true;
-
-        else if( bdt_score < 0.650 && bdt_score >= 0.400 && max_eta >= 1.900 ) 
-            categoryMap["c3"].inCategory = true;
-
-        else if( bdt_score >= 0.050 && bdt_score < 0.250 && max_eta < 0.900 ) 
-            categoryMap["c4"].inCategory = true;
-
-        else if( bdt_score >= 0.250 && bdt_score < 0.400 && max_eta < 0.900 ) 
-            categoryMap["c5"].inCategory = true;
-
-        else if( max_eta < 1.900 && bdt_score >= 0.250 && bdt_score < 0.400 && max_eta >= 0.900 ) 
-            categoryMap["c6"].inCategory = true;
-
-        // c7 Low Eta, dropped c7 High Eta
-        else if( bdt_score >= 0.050 && bdt_score < 0.250 && max_eta >= 0.900 && max_eta < 1.9) 
-            categoryMap["c7"].inCategory = true;
-
-        // c8 Low Eta
-        else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta < 0.9 ) 
-            categoryMap["c8"].inCategory = true;
-
-        // c8 High Eta now c9
-        else if( bdt_score >= -0.400 && bdt_score < 0.050 && max_eta < 1.900  && max_eta >=0.9) 
-            categoryMap["c9"].inCategory = true;
-
-        // All other categories shifted up 1
-        else if( bdt_score < 0.730 && bdt_score >= 0.650 ) 
-            categoryMap["c10"].inCategory = true;
-
-        else if( max_eta < 1.900 && bdt_score < 0.650 && bdt_score >= 0.400 && max_eta >= 0.900 ) 
-            categoryMap["c11"].inCategory = true;
-
-        else if( bdt_score < 0.650 && bdt_score >= 0.400 && max_eta < 0.900 ) 
-            categoryMap["c12"].inCategory = true;
-
-        else if( bdt_score >= 0.730 )
-            categoryMap["c13"].inCategory = true;
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////

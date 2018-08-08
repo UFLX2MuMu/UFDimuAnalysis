@@ -131,8 +131,8 @@ int main(int argc, char* argv[])
       // classification and multiclassification
       //TString weightfile = dir+"f_Opt1_all_sig_all_bkg_ge0j_BDTG_default.weights.xml";                       // >= 0j, use as inclusive
       //TString weightfile = dir+"f_Opt3_oneClass_all_sig_all_bkg_eq2j_eq0b_met80_BDTG_default.weights.xml";   // == 2j, 0b, met<80
-      //TString weightfile = dir+"f_Opt_v1_all_sig_all_bkg_ge0j_BDTG_UF_v1.weights.xml";           // TMVA binary classification 1/2 sig for training
-      TString weightfile = dir+"binaryclass_amc.weights.xml";           // TMVA binary classification 1/2 sig for training, dy_amc@nlo
+      TString weightfile = dir+"f_Opt_v1_all_sig_all_bkg_ge0j_BDTG_UF_v1.weights.xml";           // TMVA binary classification 1/2 sig for training
+      //TString weightfile = dir+"binaryclass_amc.weights.xml";           // TMVA binary classification 1/2 sig for training, dy_amc@nlo
 
       //TString weightfile_multi = dir+"f_Opt2_all_sig_all_bkg_ge0j_eq0b_BDTG_default.weights.xml";              // assumes 0b jets, but use as inclusive
       //TString weightfile_multi = dir+"f_Opt3_all_sig_all_bkg_eq2j_eq0b_met80_BDTG_default.weights.xml";        // == 2j, 0b, met < 80

@@ -325,6 +325,11 @@ class VarSet
         double dimu_mass()        { return dimuCand->mass;             };
         double dimu_mass_Roch()   { return dimuCand->mass_Roch;        };
         double dimu_mass_KaMu()   { return dimuCand->mass_KaMu;        };
+
+        double massErr_PF()  { return   dimuCand->massErr_PF; }
+        double massErr_Roch(){ return dimuCand->massErr_Roch; }
+        double massErr_KaMu(){ return dimuCand->massErr_KaMu; }
+
         double dimu_pt()          { return dimuCand->pt;               };
         double dimu_eta()         { return dimuCand->eta;              };
         double dimu_abs_eta()     { return TMath::Abs(dimuCand->eta);  };

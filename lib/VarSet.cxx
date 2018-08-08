@@ -55,6 +55,10 @@ VarSet::VarSet()
   varMap["dimu_mass"]        = &VarSet::dimu_mass;
   varMap["dimu_mass_Roch"]   = &VarSet::dimu_mass_Roch;
   varMap["dimu_mass_KaMu"]   = &VarSet::dimu_mass_KaMu;
+  varMap["massErr_PF"]       = &VarSet::massErr_PF;
+  varMap["massErr_Roch"]     = &VarSet::massErr_Roch;
+  varMap["massErr_KaMu"]     = &VarSet::massErr_KaMu;
+
   varMap["dimu_pt"]          = &VarSet::dimu_pt;
   varMap["dimu_eta"]         = &VarSet::dimu_eta;
   varMap["dimu_abs_eta"]     = &VarSet::dimu_abs_eta;

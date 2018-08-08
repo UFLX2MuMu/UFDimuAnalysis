@@ -37,7 +37,7 @@ filename = opts.f
 # code
 #============================================
 
-categories = ['cAll', 'c13']
+categories = ['cAll', 'c14']
 
 tfile = 0
 print "\n /// Making validation plots for %s ... \n" % filename

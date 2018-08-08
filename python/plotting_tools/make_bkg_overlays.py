@@ -64,7 +64,7 @@ for h in hlist:
     l = [h,inclusive]
     e = tools.getRebinEdges(h, inclusive, max_err=0.05)
     lrebin = tools.scaleByBinWidth(tools.rebin(l, e), e)
-    tools.stackAndRatio(lrebin, log=False, name=h.GetName(), savename="bkg_shapes_stack_%s" % h.GetName(), title=h.GetTitle(), 
+    tools.stackAndRatio(lrebin, log=False, name=h.GetTitle(), savename="bkg_shapes_stack_%s" % h.GetTitle(), title=h.GetTitle(), 
                         ytitleratio="%s/%s" % ("Inclusive",h.GetTitle()), errband="Error Band", ldim=[0.6, 0.55, 0.92, 0.92])
 
 #for l in list_to_stack:

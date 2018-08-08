@@ -126,7 +126,7 @@ struct _DimuCandInfo{
 struct _MuonInfo{
 
   const static unsigned int arraySize = 10;
-  const static unsigned int triggerArraySize = 6;
+  const static unsigned int triggerArraySize = 8;
   int nMuons;
   int nMuonPairs;
 

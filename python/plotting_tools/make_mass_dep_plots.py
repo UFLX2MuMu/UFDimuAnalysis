@@ -11,9 +11,9 @@ from ROOT import *
 # code
 #============================================
 
-dirname   = '../data_mc_agreement/'
-filename = 'validate_bdt_score_-1_1_categories3_tree_categorization_final_36814_dyAMC_minpt10_b0.root'
-category = 'root'
+dirname   = '../validation/'
+filename = 'validate_bdt_score_-1_1_categories2_36814_dyAMC-J_minpt20_b0_sig-xlumi1.root'
+category = 'cAll'
 vbf_samples = ['H2Mu_VBF', 'H2Mu_VBF_120', 'H2Mu_VBF_130']
 gg_samples = ['H2Mu_gg', 'H2Mu_gg_120', 'H2Mu_gg_130']
 
@@ -63,11 +63,12 @@ vbf_l120 = [vbf_h120, vbf_h125]
 vbf_l130 = [vbf_h130, vbf_h125]
 
 print "\n =========== STACK AND RATIO ====== \n" 
-tools.stackAndRatio(gg_l120, title='BDT_Score_GGF_M125_vs_M120', ytitleratio='M125/M120', log=False, yrange=(0,0.06), xtitle="bdt_score")
-tools.stackAndRatio(gg_l130, title='BDT_Score_GGF_M125_vs_M130', ytitleratio='M125/M130', log=False, yrange=(0,0.06), xtitle="bdt_score")
-
+tools.stackAndRatio(gg_l120, title='BDT_Score_GGF_M125_vs_M120', ytitleratio='M125/M120', log=False, yrange=(0,0.06), xtitle="bdt_score", 
+                    ldim=[0.23, 0.65, 0.55, 0.83])
+tools.stackAndRatio(gg_l130, title='BDT_Score_GGF_M125_vs_M130', ytitleratio='M125/M130', log=False, yrange=(0,0.06), xtitle="bdt_score",
+                    ldim=[0.23, 0.65, 0.55, 0.83])
 tools.stackAndRatio(vbf_l120, title='BDT_Score_VBF_M125_vs_M120', ytitleratio='M125/M120', log=False, yrange=(0,0.08), xtitle="bdt_score", 
-                    ldim=[0.13, 0.67, 0.41, 0.88])
+                    ldim=[0.23, 0.65, 0.55, 0.83])
 tools.stackAndRatio(vbf_l130, title='BDT_Score_VBF_M125_vs_M130', ytitleratio='M125/M130', log=False, yrange=(0,0.08), xtitle="bdt_score",
-                    ldim=[0.13, 0.67, 0.41, 0.88])
+                    ldim=[0.23, 0.65, 0.55, 0.83])
 

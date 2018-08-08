@@ -40,8 +40,7 @@ bdt_categories = [
                   'c11',
                   'c12',
                   'c13',
-                  'c14',
-                  'c15'
+                  'c14'
                  ]
 
 net_samples      = ['VH', 'H2Mu_VBF', 'H2Mu_gg', 'Diboson_plus', 'TTbar_Plus_SingleTop', 'Drell_Yan', 'Net_Data']

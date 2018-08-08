@@ -94,6 +94,7 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
    Use["BDTG_default"]            = 0;
 
    Use["BDTG_UF_v1"]              = 1;
+   Use["BDTG_UF_v2"]              = 0;
 
    Use["BDTG_AWB"]                = 0;
    Use["BDTG_AWB_lite"]           = 0;
@@ -131,7 +132,7 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
    TString out_dir = "/home/puno/h2mumu/UFDimuAnalysis_v2/bin/tmva_out";
    // out_dir = ".";
    TString out_file_name;
-   out_file_name.Form( "%s/TESTRUN_TMVA_BDT_UF_H2Mu_out.root", out_dir.Data() );
+   out_file_name.Form( "%s/baseline_plus_resolution_weight_mu_eta.root", out_dir.Data() );
    TFile* out_file = TFile::Open( out_file_name, "RECREATE" );
 
 
@@ -279,8 +280,12 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
    // factories.push_back( std::make_tuple( nullF, nullL, "f_Opt1", var_names, var_vals, 
    // 					 0x0e5c, 0x0fff, 0x001e, "all", "all", "ge0j") );
 
-   factories.push_back( std::make_tuple( nullF, nullL, "f_Opt_v1", var_names, var_vals, 
-   					 0x0650, 0x033c, 0x001e, "all", "all", "ge0j") );
+   //factories.push_back( std::make_tuple( nullF, nullL, "baseline_plus_resolution_weight", var_names, var_vals, 
+   //					 0x0650, 0x033c, 0x001e, "all", "all", "ge0j") );
+
+   factories.push_back( std::make_tuple( nullF, nullL, "baseline_plus_resolution_weight_mu_eta", var_names, var_vals, 
+   					 0x065c, 0x033c, 0x001e, "all", "all", "ge0j") );
+
    // factories.push_back( std::make_tuple( nullF, nullL, "f_Opt_v1", var_names, var_vals, 
    // 					 0x0650, 0x0004, 0x001e, "all", "all", "le1j") );
    // factories.push_back( std::make_tuple( nullF, nullL, "f_Opt_v1", var_names, var_vals, 
@@ -789,14 +794,15 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
 	 // Double_t bkg_evt_weight = 1.0;
 
 	 // Weight by expected sample normalization
-	 Double_t sig_evt_weight = samp_wgt * 1000.;
-	 Double_t bkg_evt_weight = samp_wgt;
-	 if (MULTICLASS) sig_evt_weight *= 0.001; // Don't weight signal for MultiClass
+	 //Double_t sig_evt_weight = samp_wgt * 1000.;
+	 //Double_t bkg_evt_weight = samp_wgt;
 	 
-	 // // Weight by expected sample normalization x signal resolution
-	 // Double_t sig_evt_weight = samp_wgt * res_wgt * 1000.;
-	 // Double_t bkg_evt_weight = samp_wgt;
+	 // Weight by expected sample normalization x signal resolution
+	 Double_t sig_evt_weight = samp_wgt * res_wgt * 1000.;
+	 Double_t bkg_evt_weight = samp_wgt;
 	     
+	 if (MULTICLASS) sig_evt_weight *= 0.001; // Don't weight signal for MultiClass
+
 	 // Load values into event
 	 if (samp_ID < 0) { // Signal MC
 	   if ( (iEvt % (2*presc)) == 0 ) {
@@ -1027,7 +1033,9 @@ void TMVAClassification_H2Mu ( TString myMethodList = "" ) {
 			  "!H:!V:NTrees=500::BoostType=Grad:Shrinkage=0.1:UseBaggedBoost:"+
 			  "BaggedSampleFraction=0.5:nCuts=20:MaxDepth=5" );
 
-
+     if (Use["BDTG_UF_v2"]) 
+       factX->BookMethod( loadX, TMVA::Types::kBDT, "BDTG_UF_v2", (std::string)
+			  "!H:!V:NTrees=500::BoostType=Grad:Shrinkage=0.1:nCuts=20:MaxDepth=5" );
 
      if (Use["BDTG_AWB"]) // Optimized settings from EMTF pT assignment
        factX->BookMethod( loadX, TMVA::Types::kBDT, "BDTG_AWB", (std::string)

@@ -150,11 +150,19 @@ res_minmax = (miny-0.2*(maxy-miny), 1.5*(maxy-miny)+maxy)
 print mean_minmax
 print res_minmax
     
+mean_datak = [mean_data[0], mean_data[2]]
+res_datak = [res_data[0], res_data[2]]
+
+mean_datak[0].SetLineColor(1)
+mean_datak[1].SetLineColor(8)
+res_datak[0].SetLineColor(1)
+res_datak[1].SetLineColor(8)
+
 print "\n =========== OVERLAY DATA ====== \n" 
-tools.overlay(mean_data, savename='zcal_data_mean_'+varname, title=('Z Calibration Mean in Data vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Voigt Fit Mean')
-tools.overlay(res_data, savename='zcal_data_res_'+varname, title=('Z Calibration Resolution in Data vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=res_minmax, ytitle='Voigt Fit Resolution')
+tools.overlay(mean_datak, savename='zcal_data_mean_'+varname, title=('Z Calibration Mean in Data vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
+             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Z-Peak Mean (GeV)', autocolor=False)
+tools.overlay(res_datak, savename='zcal_data_res_'+varname, title=('Z Calibration Resolution in Data vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
+             xtitle=vartitle+units, yrange=res_minmax, ytitle='Z-Peak Resolution (GeV)', autocolor=False)
 
 print "\n =========== OVERLAY DATA/MC PF ====== \n" 
 
@@ -164,9 +172,9 @@ res_data[0].SetTitle('Data (Particle Flow)')
 res_mc[0].SetTitle('Drell Yan MC (Particle Flow)')
 
 tools.overlay([mean_data[0], mean_mc[0]], savename='zcal_pf_mc-data_mean_'+varname, title=('Z Calibration Mean vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Voigt Fit Mean')
+             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Voigt Fit Mean (GeV)')
 tools.overlay([res_data[0], res_mc[0]], savename='zcal_pf_mc-data_res_'+varname, title=('Z Calibration Resolution vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=res_minmax, ytitle='Voigt Fit Resolution')
+             xtitle=vartitle+units, yrange=res_minmax, ytitle='Voigt Fit Resolution (GeV)')
 
 print "\n =========== OVERLAY DATA/MC Roch ====== \n" 
 
@@ -175,10 +183,15 @@ mean_mc[1].SetTitle('Drell Yan MC (Rochester)')
 res_data[1].SetTitle('Data (Rochester)')
 res_mc[1].SetTitle('Drell Yan MC (Rochester)')
 
+mean_data[1].SetLineColor(1)
+mean_mc[1].SetLineColor(8)
+res_data[1].SetLineColor(1)
+res_mc[1].SetLineColor(8)
+
 tools.overlay([mean_data[1], mean_mc[1]], savename='zcal_roch_mc-data_mean_'+varname, title=('Z Calibration Mean vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Voigt Fit Mean')
+             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Z-Peak Mean (GeV)', autocolor=False)
 tools.overlay([res_data[1], res_mc[1]], savename='zcal_roch_mc-data_res_'+varname, title=('Z Calibration Resolution vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=res_minmax, ytitle='Voigt Fit Resolution')
+             xtitle=vartitle+units, yrange=res_minmax, ytitle='Z-Peak Resolution (GeV)', autocolor=False)
 
 print "\n =========== OVERLAY DATA/MC KaMu ====== \n" 
 
@@ -187,7 +200,12 @@ mean_mc[2].SetTitle('Drell Yan MC (Kalman Filter)')
 res_data[2].SetTitle('Data (Kalman Filter)')
 res_mc[2].SetTitle('Drell Yan MC (Kalman Filter)')
 
+mean_data[2].SetLineColor(1)
+mean_mc[2].SetLineColor(8)
+res_data[2].SetLineColor(1)
+res_mc[2].SetLineColor(8)
+
 tools.overlay([mean_data[2], mean_mc[2]], savename='zcal_kamu_mc-data_mean_'+varname, title=('Z Calibration Mean vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Voigt Fit Mean')
+             xtitle=vartitle+units, yrange=mean_minmax, ytitle='Z-Peak Mean (GeV)', autocolor=False)
 tools.overlay([res_data[2], res_mc[2]], savename='zcal_kamu_mc-data_res_'+varname, title=('Z Calibration Resolution vs '+ vartitle), ldim=[0.3,0.63,0.88,0.88], 
-             xtitle=vartitle+units, yrange=res_minmax, ytitle='Voigt Fit Resolution')
+             xtitle=vartitle+units, yrange=res_minmax, ytitle='Z-Peak Resolution (GeV)', autocolor=False)

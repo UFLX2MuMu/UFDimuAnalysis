@@ -16,7 +16,7 @@ To print the CMS luminosity information, use the tdrstyle.cmsPrel function. For 
 import ROOT as rt
 
 
-def cmsPrel(lumi,  energy,  simOnly,  onLeft=True,  sp=0, textScale=1.):
+def cmsPrel(lumi,  energy,  simOnly,  prelim=False, onLeft=True,  sp=0, textScale=1.):
   '''Overlay CMS information text: 
     CMS
     Simulation, if applicable
@@ -92,6 +92,8 @@ def cmsPrel(lumi,  energy,  simOnly,  onLeft=True,  sp=0, textScale=1.):
   if(simOnly):
     latex.DrawLatex(cmsxloc, simyloc,"Simulation")
 
+  if(prelim and onLeft):
+    latex.DrawLatex(cmsxloc+0.09, cmsyloc,"Preliminary")
 
 def tdrGrid( gridOn):
   tdrStyle.SetPadGridX(gridOn)
@@ -217,8 +219,8 @@ def setTDRStyle():
   tdrStyle.SetStripDecimals(True)
   tdrStyle.SetTickLength(0.03, "XYZ")
   tdrStyle.SetNdivisions(510, "XYZ")
-  tdrStyle.SetPadTickX(1)  # To get tick marks on the opposite side of the frame
-  tdrStyle.SetPadTickY(1)
+  #tdrStyle.SetPadTickX(1)  # To get tick marks on the opposite side of the frame
+  #tdrStyle.SetPadTickY(1)
 
 # Change for log plots:
   tdrStyle.SetOptLogx(0)

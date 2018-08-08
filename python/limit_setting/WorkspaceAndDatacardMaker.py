@@ -7,6 +7,9 @@
 # with higgs combine.                        #
 ##############################################
 
+# prototype with no systematics or automatic interpolation
+
+
 #============================================
 # import
 #============================================
@@ -41,11 +44,14 @@ class WorkspaceAndDatacardMaker:
         self.setNetSignalHist()
         self.setNetMCHist()
     
+    # uses the naming convention from categorize.cxx to automatically grab the histograms
     def setNetBackgroundHist(self):
+    # grab net bkg MC, use as data for prototyping
         self.bkg_hist = self.tfile.Get('net_histos/'+self.category+"_Net_Bkg")
         self.bkg_hist.SetTitle(self.category+"_Net_Bkg")
     
     def setNetSignalHist(self):
+    # just use the net signal histogram instead of the different channels for prototyping
         self.signal_hist = self.tfile.Get('net_histos/'+self.category+"_Net_Signal")
         self.signal_hist.SetTitle(self.category+"_Net_Signal")
     
@@ -223,12 +229,13 @@ class WorkspaceAndDatacardMaker:
         f.write('----------------------------------------------------------------------------------------------------------------------------------\n')
 
 print('program is running ...')
-# Needs the file with the dimu_mass plots created by categorize.cxx via running ./categorizeRun1/2
+# Needs the file with the dimu_mass plots created by categorize.cxx
 # also needs to know the category you want to make the root file and datacard for
-wdm = WorkspaceAndDatacardMaker('/home/puno/h2mumu/UFDimuAnalysis_v2/bin/rootfiles/validate_dimu_mass_PF_110_160_x69p2_8_0_X_MC_run1categories_36814.root', 
-                                'c_01_Jet_Tight_BB') 
+wdm = WorkspaceAndDatacardMaker('/home/puno/h2mumu/UFDimuAnalysis_v2/bin/rootfiles/validate_dimu_mass_PF_110_160_x69p2_8_0_X_MC_run1categories_36814.root', 'c_01_Jet_Tight_BB') 
 print wdm.infilename, wdm.category
 wdm.makeShapeWorkspace()
 wdm.makeShapeDatacard()
+# use higgs combine to combine the categories for the net limit, p-value, whatever
+
 #wdm.makeTemplateRootFile()
 #wdm.makeTemplateDatacard()
