@@ -28,4 +28,20 @@ class Run2MuonSelectionCuts : public Cut
         TString string();
 };
 
+
+class MuonSelectionCuts_2017 : public Cut
+{
+    public:
+        MuonSelectionCuts_2017();
+        MuonSelectionCuts_2017(float minPt, float maxEta, float maxRelIso);
+
+        float cMinPt;               // >
+        float cMaxEta;              // <
+        float cMaxRelIso;           // <
+
+        void makeCutSet();
+        bool evaluate(VarSet& vars);
+        TString string();
+};
+
 #endif

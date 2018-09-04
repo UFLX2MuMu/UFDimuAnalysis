@@ -16,7 +16,7 @@ OBJDIR = ../lib/analyzer_objects/
 CFLAGS = -I ${CDIR} -I${OBJDIR} -I${LIBDIR} -I${SDIR} -I${TDIR} -I${THREADDIR} -c -g `root-config --cflags`
 
 # The name of the .cxx file you want to compile into an executable
-MAIN = classifyDataFrame
+#MAIN = classifyDataFrame
 #MAIN = TMVAClassification_H2Mu
 #MAIN = TMVAClassificationApplication_H2Mu
 #MAIN = categorize
@@ -24,6 +24,9 @@ MAIN = classifyDataFrame
 #MAIN = outputCounts
 #MAIN = synchronize
 #MAIN = example
+#MAIN = xunwu_stack_test
+#MAIN = masscal_2017_Z
+MAIN = massdev
 #MAIN = dycompare
 #MAIN = masscalibration
 #MAIN = fakes

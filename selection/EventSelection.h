@@ -28,6 +28,25 @@ class Run2EventSelectionCuts : public Cut
         TString string();
 };
 
+
+class EventSelectionCuts_2017 : public Cut
+{
+// if data apply hlt trigger matching
+// if MC do not apply hlt trigger matching
+    public:
+        EventSelectionCuts_2017();
+        EventSelectionCuts_2017(float trigMuPtMin, float dimuMassMin);
+
+        float cTrigMuPtMin;        // >
+        float cDimuMassMin;        // >
+
+        void makeCutSet();
+        bool evaluate(VarSet& vars);
+        TString string();
+};
+
+
+
 class SynchEventSelectionCuts : public Cut
 {
     public:

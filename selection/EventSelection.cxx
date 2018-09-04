@@ -123,6 +123,134 @@ void Run2EventSelectionCuts::makeCutSet()
     cutset.concatCuts();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+// _______________________EventSelectionCuts_2017______________________//
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+// Event selection based on the run1 h2mu analysis, still using these
+// for the run2 analysis modified for our hlt trigger matching
+// criteria
+
+// The 80X samples didn't have trigger matching, so the data requires
+// hlt trigger matching but the mc doesn't, then the mc is scaled
+
+EventSelectionCuts_2017::EventSelectionCuts_2017()
+{
+// Default values for the modified run 1 event selection
+
+    cTrigMuPtMin = 30; 
+    // sublead pt condition is met in muon selection
+                                
+    cDimuMassMin = 60;
+    cutset.cuts = std::vector<CutInfo>(3, CutInfo());
+    makeCutSet();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+
+EventSelectionCuts_2017::EventSelectionCuts_2017(float trigMuPtMin, float dimuMassMin)
+{
+// Default values for the modified run 1 event selection
+
+    cTrigMuPtMin = trigMuPtMin;          // >
+    // sublead pt condition is met in muon selection
+
+    cDimuMassMin = dimuMassMin;          // >
+    cutset.cuts = std::vector<CutInfo>(3, CutInfo());
+    makeCutSet();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+
+bool EventSelectionCuts_2017::evaluate(VarSet& vars)
+{
+    // check the mass cut first since it's the most likely to cut the event
+    // saves computation time so that we don't have to check the others
+    if(!(vars.dimuCand->mass > cDimuMassMin) && cutset.cuts[2].on) return false;
+
+    // Pt cuts on leading muon
+    MuonInfo& mu1 = vars.muons->at(vars.dimuCand->iMu1);
+    MuonInfo& mu2 = vars.muons->at(vars.dimuCand->iMu2);
+
+    if(!cutset.cuts[1].on) ;
+    else if((mu1.isHltMatched[2] || mu1.isHltMatched[3]) && mu1.pt > cTrigMuPtMin) ;
+    else if((mu2.isHltMatched[2] || mu2.isHltMatched[3]) && mu2.pt > cTrigMuPtMin) ;
+    else
+    {
+         return false;
+    }
+
+    // Require oppositely charged muons in the event
+    if(!(mu1.charge != mu2.charge) && cutset.cuts[0].on) return false;
+
+    return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+
+TString EventSelectionCuts_2017::string()
+{
+    return TString("Event_Selection_2017");
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////
+
+void EventSelectionCuts_2017::makeCutSet()
+{
+    cutset.cuts[0].name = "recoMu1.charge != recoMu2.charge";
+    cutset.cuts[0].bins = 2;
+    cutset.cuts[0].min = 0;
+    cutset.cuts[0].max = 2;
+    cutset.cuts[0].ismin = true;
+
+    cutset.cuts[1].name = Form("hltMatchedMu.pt > %6.2f", cTrigMuPtMin);
+    cutset.cuts[1].bins = 201;
+    cutset.cuts[1].min = -1;
+    cutset.cuts[1].max = 200;
+    cutset.cuts[1].cutvalue = &cTrigMuPtMin;
+    cutset.cuts[1].ismin = true;
+
+    cutset.cuts[2].name = Form("mass > %6.2f", cDimuMassMin);
+    cutset.cuts[2].bins = 150;
+    cutset.cuts[2].min = 50;
+    cutset.cuts[2].max = 200;
+    cutset.cuts[2].cutvalue = &cDimuMassMin;
+    cutset.cuts[2].ismin = true;
+
+    cutset.concatCuts();
+}
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 // _______________________SynchEventSelectionCuts______________________//

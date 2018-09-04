@@ -27,7 +27,7 @@ VarSet::VarSet()
 
   TString str;
 
-  varMap["nVertices"]     = &VarSet::_nVertices;
+//  varMap["nVertices"]     = &VarSet::_nVertices;
 
   varMap["bdt_score"]     = &VarSet::bdt_score;
   varMap["bdt_vbf_score"] = &VarSet::bdt_vbf_score;
@@ -37,13 +37,13 @@ VarSet::VarSet()
   varMap["bdt_top_score"] = &VarSet::bdt_top_score;
 
   // Object counting
-  varMap["nJets"]        = &VarSet::_nJets;
-  varMap["nJetsCent"]    = &VarSet::_nJetsCent;
-  varMap["nJetsFwd"]     = &VarSet::_nJetsFwd;
-  varMap["nBLoose"]      = &VarSet::_nBLoose;
-  varMap["nBMed"]        = &VarSet::_nBMed;
-  varMap["nBTight"]      = &VarSet::_nBTight;
-  varMap["nValJets"]     = &VarSet::nValJets;
+//  varMap["nJets"]        = &VarSet::_nJets;
+//  varMap["nJetsCent"]    = &VarSet::_nJetsCent;
+//  varMap["nJetsFwd"]     = &VarSet::_nJetsFwd;
+//  varMap["nBLoose"]      = &VarSet::_nBLoose;
+//  varMap["nBMed"]        = &VarSet::_nBMed;
+//  varMap["nBTight"]      = &VarSet::_nBTight;
+//  varMap["nValJets"]     = &VarSet::nValJets;
   // varMap["nValJetsCent"] = &VarSet::nValJetsCent;
   // varMap["nValJetsFwd"]  = &VarSet::nValJetsFwd;
   varMap["nValBTags"]    = &VarSet::nValBTags;

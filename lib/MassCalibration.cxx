@@ -270,6 +270,18 @@ VoigtFitInfo MassCalibration::fit(TH1D* inhist, Float_t x, Float_t x_err)
     vfi.x = x;
     vfi.x_err = x_err;
     
+
+    //if histo empty, set mean=91, error=91, resolution=0
+    if(inhist->GetEntries() == 0)
+    {
+        vfi.vmean = 0;
+        vfi.vmean_err = 0;
+        vfi.vsigma = 0;
+        vfi.vsigma_err = 0;
+
+        return vfi;
+    }
+
     // Grab the results we are interested in.
     vfi.hmean = inhist->GetMean();
     vfi.hmean_err = inhist->GetMeanError();
@@ -300,21 +312,22 @@ VoigtFitInfo MassCalibration::fit(TH1D* inhist, Float_t x, Float_t x_err)
     fit->FixParameter(3, voigt_gamma);
 
     // Sometimes we have to fit the data a few times before the fit converges
-    bool converged = 0;
+    bool converged = 1;
     int ntries = 0;
     
     // Make sure the fit converges.
-    while(!converged) 
+   while( converged != 0 ) 
     {
       if(ntries >= 50) break;
       fit->SetParameter(2, initial_sigma);
       inhist->Fit(fitname, "q");
 
       // Fit to a width of fitsig sigmas
-      inhist->Fit(fitname,"q","", fit->GetParameter(1) - fitsig*vfi.hrms, fit->GetParameter(1) + fitsig*vfi.hrms);
+      TFitResultPtr ptr = inhist->Fit(fitname,"q","", fit->GetParameter(1) - fitsig*vfi.hrms, fit->GetParameter(1) + fitsig*vfi.hrms);
       //inhist->Fit(fitname,"q","", massmin, massmax);
-      TString sconverge = gMinuit->fCstatu.Data();
-      converged = sconverge.Contains(TString("CONVERGED"));
+      //TString sconverge = gMinuit->fCstatu.Data();
+      converged = ptr;
+      //converged = sconverge.Contains(TString("CONVERGED"));
       ntries++; 
     }
 

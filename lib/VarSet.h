@@ -58,34 +58,31 @@ class VarSet
         //////////////////////////////////////////////////////////////////////////////
 
         // reco weights for mc
-        float eff_wgt;            // use this if you don't match MC to trigger
+//        float eff_wgt;            // use this if you don't match MC to trigger
                                   // scales mc to trigger passed data based on pt,eta
 
         float isoMu_SF_3;  // match MC to trigger, account for discrepancy from there
-        float isoMu_SF_4;  // scale factors change for different eras hence the 3 and 4
         float muID_SF_3;   // match MC to muID, adjust to data from there
-        float muID_SF_4;   // ...
         float muIso_SF_3;  // cut mc based on iso, adjust to data from there
-        float muIso_SF_4;  // ...
 
         float sf()
         {
             // average the scale factors for the different eras and multiply all of them
             // to get the net scale factor
-            return 0.5*(isoMu_SF_3 + isoMu_SF_4)*0.5*(muID_SF_3 + muID_SF_4)*0.5*(muIso_SF_3 + muIso_SF_4);
+            return isoMu_SF_3 * muID_SF_3 * muIso_SF_3 ;
         }
 
         float pu_wgt;      // weight mc based upon PU to match data PU distribution
         
 
         // reco info
-        Int_t nVertices;
-        Int_t nJets;
-        Int_t nJetsCent;
-        Int_t nJetsFwd;
-        Int_t nBLoose;
-        Int_t nBMed;
-        Int_t nBTight;
+//        Int_t nVertices;
+//        Int_t nJets;
+//        Int_t nJetsCent;
+//        Int_t nJetsFwd;
+//        Int_t nBLoose;
+//        Int_t nBMed;
+//        Int_t nBTight;
         EventInfo* eventInfo = 0;
         MuPairInfo* dimuCand = 0; // this is a pointer to one of the dimu candidates in the vector
                                   // we don't want to copy the object for ~40 million events
@@ -105,7 +102,7 @@ class VarSet
         std::vector<GenMuPairInfo>* genDimuons = 0;
 
         int nPU;
-        float lhe_ht;
+//        float lhe_ht;   //what is it?
 
         // gen weights
         int gen_wgt;
@@ -296,7 +293,7 @@ class VarSet
         //////////////////////////////////////////////////////////////////////////////
 
         // Map initialized in cxx file -----------------------------------------------
-        double _nVertices(){ return nVertices;            };
+//        double _nVertices(){ return nVertices;            };
 
         // load the bdt score manually beforehand
         double bdt_score()    { return bdt_out;                };
@@ -307,12 +304,12 @@ class VarSet
         double bdt_top_score(){ return bdt_top_out;            };
 
         // Object counting
-	double _nJets()       { return nJets;                  };
-	double _nJetsCent()   { return nJetsCent;              };
-	double _nJetsFwd()    { return nJetsFwd;               };
-	double _nBLoose()     { return nBLoose;                };
-	double _nBMed()       { return nBMed;                  };
-	double _nBTight()     { return nBTight;                };
+//	double _nJets()       { return nJets;                  };
+//	double _nJetsCent()   { return nJetsCent;              };
+//	double _nJetsFwd()    { return nJetsFwd;               };
+//	double _nBLoose()     { return nBLoose;                };
+//	double _nBMed()       { return nBMed;                  };
+//	double _nBTight()     { return nBTight;                };
         double nValJets()     { return validJets.size();       };
         // double nValJetsCent() { return nJetsCent;              };
         // double nValJetsFwd()  { return nJetsFwd;               };

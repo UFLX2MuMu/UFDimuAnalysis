@@ -106,13 +106,13 @@ void Sample::setBranchAddresses(TString options)
       branches.met        = chain->GetBranch("met");
 
       branches.eventInfo  = chain->GetBranch("event");
-      branches.nVertices  = chain->GetBranch("nVertices");
-      branches.nJets      = chain->GetBranch("nJets");
-      branches.nJetsCent  = chain->GetBranch("nJetsCent");
-      branches.nJetsFwd   = chain->GetBranch("nJetsFwd");
-      branches.nBLoose    = chain->GetBranch("nBLoose");
-      branches.nBMed      = chain->GetBranch("nBMed");
-      branches.nBTight    = chain->GetBranch("nBTight");
+//      branches.nVertices  = chain->GetBranch("nVertices");
+//      branches.nJets      = chain->GetBranch("nJets");
+//      branches.nJetsCent  = chain->GetBranch("nJetsCent");
+//      branches.nJetsFwd   = chain->GetBranch("nJetsFwd");
+//      branches.nBLoose    = chain->GetBranch("nBLoose");
+//      branches.nBMed      = chain->GetBranch("nBMed");
+//      branches.nBTight    = chain->GetBranch("nBTight");
 
       branches.electrons = chain->GetBranch("eles");
 
@@ -135,12 +135,12 @@ void Sample::setBranchAddresses(TString options)
               branches.jetPairs  = chain->GetBranch("jetPairs_JES_up");
               branches.mht       = chain->GetBranch("mht_JES_up");
               branches.met       = chain->GetBranch("met_JES_up");
-              branches.nJets     = chain->GetBranch("nJets_JES_up");
-              branches.nJetsCent = chain->GetBranch("nJetsCent_JES_up");
-              branches.nJetsFwd  = chain->GetBranch("nJetsFwd_JES_up");
-              branches.nBLoose   = chain->GetBranch("nBLoose_JES_up");
-              branches.nBMed     = chain->GetBranch("nBMed_JES_up");
-              branches.nBTight   = chain->GetBranch("nBTight_JES_up");
+//              branches.nJets     = chain->GetBranch("nJets_JES_up");
+//              branches.nJetsCent = chain->GetBranch("nJetsCent_JES_up");
+//              branches.nJetsFwd  = chain->GetBranch("nJetsFwd_JES_up");
+//              branches.nBLoose   = chain->GetBranch("nBLoose_JES_up");
+//              branches.nBMed     = chain->GetBranch("nBMed_JES_up");
+//              branches.nBTight   = chain->GetBranch("nBTight_JES_up");
           }
 
           if(options == "JES_down")
@@ -149,36 +149,30 @@ void Sample::setBranchAddresses(TString options)
               branches.jetPairs  = chain->GetBranch("jetPairs_JES_down");
               branches.mht       = chain->GetBranch("mht_JES_down");
               branches.met       = chain->GetBranch("met_JES_down");
-              branches.nJets     = chain->GetBranch("nJets_JES_down");
-              branches.nJetsCent = chain->GetBranch("nJetsCent_JES_down");
-              branches.nJetsFwd  = chain->GetBranch("nJetsFws_JES_down");   // typo in analyzer collection
-              branches.nBLoose   = chain->GetBranch("nBLoose_JES_down");
-              branches.nBMed     = chain->GetBranch("nBMed_JES_down");
-              branches.nBTight   = chain->GetBranch("nBTight_JES_down");
+//              branches.nJets     = chain->GetBranch("nJets_JES_down");
+//              branches.nJetsCent = chain->GetBranch("nJetsCent_JES_down");
+//              branches.nJetsFwd  = chain->GetBranch("nJetsFws_JES_down");   // typo in analyzer collection
+//              branches.nBLoose   = chain->GetBranch("nBLoose_JES_down");
+//              branches.nBMed     = chain->GetBranch("nBMed_JES_down");
+//              branches.nBTight   = chain->GetBranch("nBTight_JES_down");
           }
 
-          branches.eff_wgt = chain->GetBranch("IsoMu_eff_3");
-          branches.lhe_ht  = chain->GetBranch("LHE_HT");
+//          branches.eff_wgt = chain->GetBranch("IsoMu_eff_3");
+//          branches.lhe_ht  = chain->GetBranch("LHE_HT");
 
-          branches.isoMu_SF_3 = chain->GetBranch("IsoMu_SF_3");
-          branches.isoMu_SF_4 = chain->GetBranch("IsoMu_SF_4");
-          branches.muID_SF_3  = chain->GetBranch("MuID_SF_3");
-          branches.muID_SF_4  = chain->GetBranch("MuID_SF_4");
-          branches.muIso_SF_3 = chain->GetBranch("MuIso_SF_3");
-          branches.muIso_SF_4 = chain->GetBranch("MuIso_SF_4");
+          branches.isoMu_SF_3 = chain->GetBranch("IsoMu_eff_3");   //these three should SF_3, but for now (2017 ntuple v3), they are eff_3
+          branches.muID_SF_3  = chain->GetBranch("MuID_eff_3");
+          branches.muIso_SF_3 = chain->GetBranch("MuIso_eff_3");
 
           branches.gen_wgt->SetAddress(&vars.gen_wgt);
           branches.nPU->SetAddress(&vars.nPU);
           branches.pu_wgt->SetAddress(&vars.pu_wgt);
-          branches.eff_wgt->SetAddress(&vars.eff_wgt);
-          branches.lhe_ht->SetAddress(&vars.lhe_ht);
+//          branches.eff_wgt->SetAddress(&vars.eff_wgt);
+//          branches.lhe_ht->SetAddress(&vars.lhe_ht);
 
           branches.isoMu_SF_3->SetAddress(&vars.isoMu_SF_3); 
-          branches.isoMu_SF_4->SetAddress(&vars.isoMu_SF_4); 
           branches.muID_SF_3->SetAddress(&vars.muID_SF_3); 
-          branches.muID_SF_4->SetAddress(&vars.muID_SF_4); 
           branches.muIso_SF_3->SetAddress(&vars.muIso_SF_3); 
-          branches.muIso_SF_4->SetAddress(&vars.muIso_SF_4); 
 
           branches.genParents = chain->GetBranch("genParents");
           branches.genMuons   = chain->GetBranch("genMuons");
@@ -197,13 +191,13 @@ void Sample::setBranchAddresses(TString options)
       branches.met->SetAddress(&vars.met);
 
       branches.eventInfo->SetAddress(&vars.eventInfo);
-      branches.nVertices->SetAddress(&vars.nVertices);
-      branches.nJets->SetAddress(&vars.nJets);
-      branches.nJetsCent->SetAddress(&vars.nJetsCent);
-      branches.nJetsFwd->SetAddress(&vars.nJetsFwd);
-      branches.nBLoose->SetAddress(&vars.nBLoose);
-      branches.nBMed->SetAddress(&vars.nBMed);
-      branches.nBTight->SetAddress(&vars.nBTight);
+//      branches.nVertices->SetAddress(&vars.nVertices);
+//      branches.nJets->SetAddress(&vars.nJets);
+//      branches.nJetsCent->SetAddress(&vars.nJetsCent);
+//      branches.nJetsFwd->SetAddress(&vars.nJetsFwd);
+//      branches.nBLoose->SetAddress(&vars.nBLoose);
+//      branches.nBMed->SetAddress(&vars.nBMed);
+//      branches.nBTight->SetAddress(&vars.nBTight);
 
       branches.electrons->SetAddress(&vars.electrons);
 }
@@ -265,7 +259,7 @@ double Sample::getWeight()
 // Gets the weight for the histogram depending on the sample type 
     if(sampleType == "data") return 1.0;
     else if(lumiWeights == 0) return 1.0*vars.gen_wgt*vars.pu_wgt*vars.sf();
-    else return 1.0*vars.gen_wgt*lumiWeights->weight(vars.nPU)*vars.sf();
+//    else return 1.0*vars.gen_wgt*lumiWeights->weight(vars.nPU)*vars.sf();
     //else return 1.0*vars.gen_wgt;
 }
 
